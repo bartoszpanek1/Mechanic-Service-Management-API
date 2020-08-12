@@ -1,8 +1,8 @@
 package com.mech_serv_mng.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @RequiredArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"customer","services"})
+@ToString(exclude = {"customer", "services"})
 @EqualsAndHashCode(exclude = {"customer", "services"})
 @Getter
 @Setter

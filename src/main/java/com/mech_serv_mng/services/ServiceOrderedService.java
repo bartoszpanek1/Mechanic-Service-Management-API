@@ -4,7 +4,6 @@ package com.mech_serv_mng.services;
 import com.mech_serv_mng.models.ServiceOrdered;
 import com.mech_serv_mng.repositories.ServiceOrderedRepository;
 import com.mech_serv_mng.services.specifications.ServiceOrderedSpecifications;
-import org.apache.tomcat.jni.Local;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 

@@ -20,14 +20,8 @@ public class CustomerController {
 
 
     @GetMapping("/customers")
-    public List<Customer> findCustomers(@RequestParam(required = false) String identNum
-            , @RequestParam(required = false) String name
-            , @RequestParam(required = false) String familyName
-            , @RequestParam(required = false) String phoneNumber
-            , @RequestParam(required = false) String email
-            , @RequestParam(required = false) String birthDate) {
-        return customerService.findMatchingCustomers(identNum, name, familyName, phoneNumber, email, birthDate);
-
+    public List<Customer> findCustomers(@RequestBody CustomerDTO dto) {
+        return customerService.findMatchingCustomers(dto.getIdentNum(), dto.getName(), dto.getFamilyName(), dto.getPhoneNumber(), dto.getEmail(), dto.getBirthDate());
     }
 
     @GetMapping("/customers/{id}")
@@ -36,21 +30,21 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    public String addCustomer(@RequestBody CustomerDTO dto){
+    public String addCustomer(@RequestBody CustomerDTO dto) {
         LocalDate birthDate = LocalDate.parse(dto.getBirthDate());
-        Customer customer = new Customer(null, dto.getIdentNum(),dto.getName(),dto.getFamilyName(),dto.getPhoneNumber(),dto.getEmail(),birthDate,null);
+        Customer customer = new Customer(null, dto.getIdentNum(), dto.getName(), dto.getFamilyName(), dto.getPhoneNumber(), dto.getEmail(), birthDate, null);
         customerService.addCustomer(customer);
         return "ADDED";
     }
 
     @DeleteMapping("/customers/{id}")
-    public String deleteCustomer(@PathVariable("id") Integer id){
+    public String deleteCustomer(@PathVariable("id") Integer id) {
         customerService.deleteCustomer(id);
         return "DELETED";
     }
 
     @PutMapping("/customers")
-    public String updateCustomer(@RequestBody Customer customer){
+    public String updateCustomer(@RequestBody Customer customer) {
         customerService.addCustomer(customer);
         return "UPDATED";
     }

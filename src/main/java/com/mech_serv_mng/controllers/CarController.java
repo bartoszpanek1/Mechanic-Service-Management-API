@@ -21,35 +21,31 @@ public class CarController {
     }
 
     @GetMapping("/cars")
-    public List<Car> findMatchingCars(@RequestParam(required = false) String regNum
-            , @RequestParam(required = false) String brand
-            , @RequestParam(required = false) String model
-            , @RequestParam(required = false) String color
-            , @RequestParam(required = false) Integer customerId){
-        return carService.findMatchingCars(regNum,brand,model,color,customerId);
+    public List<Car> findMatchingCars(@RequestBody CarDTO dto) {
+        return carService.findMatchingCars(dto.getRegNum(), dto.getBrand(),dto.getModel(), dto.getColor(), dto.getCustomerId());
     }
 
     @GetMapping("/cars/{id}")
-    public Optional<Car> findCar(@PathVariable("id") Integer id){
+    public Optional<Car> findCar(@PathVariable("id") Integer id) {
         return carService.findCar(id);
     }
 
     @PostMapping("/cars")
-    public String addCar(@RequestBody CarDTO dto){
+    public String addCar(@RequestBody CarDTO dto) {
         Optional<Customer> customer = customerService.findCustomer(dto.getCustomerId());
-        Car car = new Car(null, dto.getRegNum(),dto.getBrand(),dto.getModel(),dto.getColor(), customer.orElse(null),null);
+        Car car = new Car(null, dto.getRegNum(), dto.getBrand(), dto.getModel(), dto.getColor(), customer.orElse(null), null);
         carService.addCar(car);
         return "ADDED";
     }
 
     @DeleteMapping("/cars/{id}")
-    public String deleteCar(@PathVariable("id") Integer id){
+    public String deleteCar(@PathVariable("id") Integer id) {
         carService.deleteCar(id);
         return "DELETED";
     }
 
     @PutMapping("/cars")
-    public String updateCar(@RequestBody Car customer){
+    public String updateCar(@RequestBody Car customer) {
         carService.addCar(customer);
         return "UPDATED";
     }

@@ -16,6 +16,7 @@ import java.util.Optional;
 public class ServiceOrderedController {
     private final ServiceOrderedService serviceOrderedService;
     private final CarService carService;
+
     public ServiceOrderedController(ServiceOrderedService serviceOrderedService, CarService carService) {
         this.serviceOrderedService = serviceOrderedService;
         this.carService = carService;
@@ -38,7 +39,7 @@ public class ServiceOrderedController {
         LocalDate accepted = LocalDate.parse(dto.getAccepted());
         LocalDate deadline = LocalDate.parse(dto.getAccepted());
         Car car = carService.findCar(dto.getCarId()).orElse(null);
-        ServiceOrdered service = new ServiceOrdered(null, dto.getPrice(), dto.getDescription(), accepted, deadline, dto.getCompleted(),car);
+        ServiceOrdered service = new ServiceOrdered(null, dto.getPrice(), dto.getDescription(), accepted, deadline, dto.getCompleted(), car);
         serviceOrderedService.addService(service);
         return "ADDED";
     }
@@ -50,7 +51,7 @@ public class ServiceOrderedController {
     }
 
     @PutMapping("/services")
-    public String updateService(@RequestBody ServiceOrdered service){
+    public String updateService(@RequestBody ServiceOrdered service) {
         System.out.println(service);
         serviceOrderedService.addService(service);
         return "UPDATED";
