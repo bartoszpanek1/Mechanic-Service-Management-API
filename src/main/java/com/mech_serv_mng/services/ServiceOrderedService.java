@@ -4,6 +4,7 @@ package com.mech_serv_mng.services;
 import com.mech_serv_mng.models.ServiceOrdered;
 import com.mech_serv_mng.repositories.ServiceOrderedRepository;
 import com.mech_serv_mng.services.specifications.ServiceOrderedSpecifications;
+import org.apache.tomcat.jni.Local;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -41,12 +42,15 @@ public class ServiceOrderedService {
 
         if (acceptedDateLow != null || acceptedDateHigh != null || deadlineLow != null || deadlineHigh != null || customerId != null) {
             List<ServiceOrdered> services = serviceOrderedRepository.findAll();
+            System.out.println(LocalDate.parse("2020-08-20").isBefore(LocalDate.parse("2020-08-08")));
+
+
             List<ServiceOrdered> servs = services.stream().filter(e ->
-                    e.getDeadline().isBefore(acceptedDateHigh == null ? LocalDate.MAX : LocalDate.parse(acceptedDateHigh)) &&
-                            e.getDeadline().isAfter(acceptedDateLow == null ? LocalDate.MIN : LocalDate.parse(acceptedDateLow)) &&
-                            e.getAccepted().isBefore(deadlineHigh == null ? LocalDate.MAX : LocalDate.parse(deadlineHigh)) &&
-                            e.getAccepted().isAfter(deadlineLow == null ? LocalDate.MIN : LocalDate.parse(deadlineLow)) &&
-                            e.getCar().getCustomer().getId().equals(customerId)
+                    e.getDeadline().isBefore(deadlineHigh == null ? LocalDate.MAX : LocalDate.parse(deadlineHigh)) &&
+                            e.getDeadline().isAfter(deadlineLow == null ? LocalDate.MIN : LocalDate.parse(deadlineLow)) &&
+                            e.getAccepted().isBefore(acceptedDateHigh == null ? LocalDate.MAX : LocalDate.parse(acceptedDateHigh)) &&
+                            e.getAccepted().isAfter(acceptedDateLow == null ? LocalDate.MIN : LocalDate.parse(acceptedDateLow)) &&
+                            (customerId == null || e.getCar().getCustomer().getId().equals(customerId))
             ).collect(Collectors.toList());
             ret.retainAll(servs);
         }
