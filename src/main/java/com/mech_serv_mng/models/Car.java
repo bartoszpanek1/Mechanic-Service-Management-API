@@ -36,7 +36,7 @@ public class Car implements Serializable {
     @JoinColumn(referencedColumnName = "id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ServiceOrdered> servicesOrdered;
 }

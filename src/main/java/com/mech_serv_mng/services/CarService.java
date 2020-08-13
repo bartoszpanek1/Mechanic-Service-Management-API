@@ -37,8 +37,12 @@ public class CarService {
         return specCars;
     }
 
-    public void deleteCar(Integer id) {
-        carRepository.deleteById(id);
+    public boolean deleteCar(Integer id) {
+        if(carRepository.existsById(id)){
+            carRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     public void addCar(Car car) {

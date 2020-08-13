@@ -38,8 +38,12 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
-    public void deleteCustomer(Integer id) {
-        customerRepository.deleteById(id);
+    public boolean deleteCustomer(Integer id) {
+        if(customerRepository.existsById(id)){
+            customerRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     private void toUpperCustomer(Customer customer) {

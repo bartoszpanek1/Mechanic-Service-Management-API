@@ -62,8 +62,12 @@ public class ServiceOrderedService {
         serviceOrderedRepository.save(serviceOrdered);
     }
 
-    public void deleteServiceOrdered(Integer id) {
-        serviceOrderedRepository.deleteById(id);
+    public boolean deleteServiceOrdered(Integer id) {
+        if(serviceOrderedRepository.existsById(id)){
+            serviceOrderedRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     private void toUpperServiceOrdered(ServiceOrdered serviceOrdered) {

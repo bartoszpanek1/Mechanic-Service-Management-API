@@ -5,6 +5,8 @@ import com.mech_serv_mng.models.Car;
 import com.mech_serv_mng.models.Customer;
 import com.mech_serv_mng.services.CarService;
 import com.mech_serv_mng.services.CustomerService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,22 +33,24 @@ public class CarController {
     }
 
     @PostMapping("/cars")
-    public String addCar(@RequestBody CarDTO dto) {
+    public ResponseEntity<String> addCar(@RequestBody CarDTO dto) {
         Optional<Customer> customer = customerService.findCustomer(dto.getCustomerId());
         Car car = new Car(null, dto.getRegNum(), dto.getBrand(), dto.getModel(), dto.getColor(), customer.orElse(null), null);
         carService.addCar(car);
-        return "ADDED";
+        return ResponseEntity.status(HttpStatus.CREATED).body("Created");
     }
 
     @DeleteMapping("/cars/{id}")
-    public String deleteCar(@PathVariable("id") Integer id) {
-        carService.deleteCar(id);
-        return "DELETED";
+    public ResponseEntity<String> deleteCar(@PathVariable("id") Integer id) {
+        if(carService.deleteCar(id)){
+            return ResponseEntity.ok("Deleted successfully");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Provided id does not exist in the database");
     }
 
     @PutMapping("/cars")
-    public String updateCar(@RequestBody Car customer) {
+    public ResponseEntity<String> updateCar(@RequestBody Car customer) {
         carService.addCar(customer);
-        return "UPDATED";
+        return ResponseEntity.status(HttpStatus.CREATED).body("Updated");
     }
 }

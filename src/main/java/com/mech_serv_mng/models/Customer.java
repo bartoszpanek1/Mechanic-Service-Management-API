@@ -34,7 +34,7 @@ public class Customer {
 
     private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Car> cars = new ArrayList<>();
 }
